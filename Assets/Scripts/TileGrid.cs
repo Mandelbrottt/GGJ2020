@@ -25,7 +25,7 @@ public class TileGrid : MonoBehaviour
             {
                 GameObject newTile = Instantiate(tileObject);
 
-                Vector3 newPosition = new Vector3(tileSize * x - 3.0f, tileSize * y - 3.0f, 1.0f);
+                Vector3 newPosition = new Vector3(tileSize * x - 10.0f, tileSize * y - 10.0f, 1.0f);
                 newTile.transform.position = newPosition;
 
                 if (y == 2 && x == 1)

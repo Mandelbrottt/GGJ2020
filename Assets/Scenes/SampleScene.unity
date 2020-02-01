@@ -2015,6 +2015,12 @@ MonoBehaviour:
   playerTransform: {fileID: 1436559200}
   cameraOffsetX: 0
   cameraOffsetY: 2.5
+  zoomSpeed: 1
+  targetOrtho: 5
+  smoothSpeed: 15
+  minOrtho: 5
+  maxOrtho: 20
+  transitioning: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -3989,7 +3995,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1069653682}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.19, y: -13.29, z: 1}
+  m_LocalPosition: {x: 16.28, y: -13.33, z: 1}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4007,9 +4013,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3646f75f4e0a204b8f6bcb9a03e557d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTrigger: {fileID: 1436559197}
+  player: {fileID: 1436559195}
   animator: {fileID: 1069653684}
-  playerAnimator: {fileID: 1436559203}
+  mainCamera: {fileID: 519420031}
+  transitionRunning: 0
 --- !u!1 &1175567193
 GameObject:
   m_ObjectHideFlags: 0
