@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     public float gravityScale = 3.0f;
     public float wallSlideSpeed = 10f;
 
+    public int framesMoveLocked = 15;
+
     private float horizontalMove = 0f;
     private bool jump = false;
     
@@ -23,7 +26,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private bool onGround = false;
 
-    private bool overrideGravity = true;
+    private bool isWallSliding = true;
+    private bool isRightWall = false;
+
+    private int jumpOffWall = 0;
+    private int moveLocked = 0;
 
     void Start()
     {
@@ -36,14 +43,33 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         float tempGrav = rb.gravityScale;
-        
-        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+
+        if (!isWallSliding || jumpOffWall >= 0)
+        {
+            horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        }
+
+        if (moveLocked >= 0)
+        {
+            horizontalMove = isRightWall 
+                                 ? Mathf.Min(0f, horizontalMove) 
+                                 : Mathf.Max(0f, horizontalMove);
+        }
 
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
             keepJumping = true;
             onGround = false;
+
+            if (isWallSliding)
+            {
+                float sign = isRightWall ? -1 : 1;
+                horizontalMove = horizontalMove * sign * Mathf.Sign(horizontalMove) / 2f;
+                rb.velocity = new Vector2(horizontalMove, rb.velocity.y + 15f);
+                jumpOffWall = 10;
+                moveLocked = framesMoveLocked;
+            }
         }
 
         bool triedJumping = false;
@@ -62,10 +88,10 @@ public class PlayerMovement : MonoBehaviour
         if (!triedJumping)
         {
             keepJumping = false;
-            rb.gravityScale = gravityScale * 2; 
+            rb.gravityScale = gravityScale * 2;
         }
 
-        if (overrideGravity)
+        if (isWallSliding)
             rb.gravityScale = tempGrav;
     }
 
@@ -73,7 +99,14 @@ public class PlayerMovement : MonoBehaviour
     {
         controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
         jump = false;
-        overrideGravity = false;
+        isWallSliding = false;
+
+        if (!onGround && !isWallSliding)
+        {
+            jumpOffWall--;
+        }
+
+        moveLocked--;
     }
 
     public void OnLand()
@@ -88,11 +121,19 @@ public class PlayerMovement : MonoBehaviour
     void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") &&
-            rb.velocity.y < -wallSlideSpeed)
+            rb.velocity.y < -wallSlideSpeed &&
+            Math.Abs(Input.GetAxis("Horizontal")) > 0.3f)
         {
-            rb.gravityScale = 0;
-            overrideGravity = true;
-            rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+            float dPos = collision.transform.position.x - transform.position.x;
+            isRightWall = dPos > 0;
+
+            if (Math.Abs(Mathf.Sign(dPos) - Mathf.Sign(horizontalMove)) < 0.1f)
+            {
+                jumpOffWall = framesMoveLocked;
+                rb.gravityScale = 0;
+                isWallSliding = true;
+                rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+            }
         }
     }
 }
