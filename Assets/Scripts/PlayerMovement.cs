@@ -118,6 +118,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // There are two types of terrain colliders, wall and ground.
+    // The player will collide with and walk on both, but can only wall slide and jump off of
+    // wall terrain
     void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") &&
