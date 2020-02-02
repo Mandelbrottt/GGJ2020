@@ -26,11 +26,11 @@ public class TileLevelManager : MonoBehaviour
     public GameObject player;
     public List<ExtraGridInfo> gridList;
 
-    public int gridSizeX = 10;
-    public int gridSizeY = 10;
+    public int gridSizeX = 15;
+    public int gridSizeY = 15;
 
-    public int tilesPerRow = 3;
-    public int tilesPerCol = 3;
+    public int tilesPerRow = 4;
+    public int tilesPerCol = 4;
 
     public bool isPlaying = true;
 
@@ -62,7 +62,7 @@ public class TileLevelManager : MonoBehaviour
         {
             for (int x = 0; x < tilesPerRow; x++)
             {
-                gridList[i].transform.localPosition = new Vector3(gridSizeX * x, gridSizeY * y - gridSizeY * 2.0f, 1.0f);
+                gridList[i].transform.localPosition = new Vector3(gridSizeX * x, gridSizeY * y, 1.0f);
                 i++;
             }
         }

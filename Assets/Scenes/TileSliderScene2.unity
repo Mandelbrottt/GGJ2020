@@ -4974,6 +4974,7 @@ MonoBehaviour:
   player: {fileID: 1436559195}
   animator: {fileID: 1069653684}
   mainCamera: {fileID: 519420031}
+  tileTransforms: []
   transitionRunning: 0
 --- !u!1 &1175567193
 GameObject:
@@ -6169,7 +6170,8 @@ MonoBehaviour:
   animator: {fileID: 1436559203}
   runSpeed: 40
   gravityScale: 3
-  wallSlideSpeed: 10
+  fallingGravityScale: 2
+  wallSlideSpeed: 1
   framesMoveLocked: 15
   onGround: 0
 --- !u!212 &1436559199
@@ -6259,6 +6261,7 @@ MonoBehaviour:
   m_GroundCheck: {fileID: 1558992069}
   m_CeilingCheck: {fileID: 1903018300}
   m_CrouchDisableCollider: {fileID: 0}
+  m_Grounded: 0
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
