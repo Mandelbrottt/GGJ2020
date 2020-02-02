@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class CameraBehaviour : MonoBehaviour
 {
-
-    public Transform transform;
     public Transform playerTransform;
 
     public float cameraOffsetX;
@@ -14,8 +12,8 @@ public class CameraBehaviour : MonoBehaviour
     public float zoomSpeed = 1;
     public float targetOrtho = 5.0f;
     public float smoothSpeed = 2.0f;
-    public float minOrtho = 1.0f;
-    public float maxOrtho = 20.0f;
+    public float minOrtho = 5.0f;
+    public float maxOrtho = 40.0f;
 
     public bool transitioning = false;
 
@@ -26,6 +24,9 @@ public class CameraBehaviour : MonoBehaviour
 
     private void Update()
     {
+        Vector3 newPos = transform.position;
+        newPos.x += Input.GetAxis("Horizontal") * Time.deltaTime * 5.0f;
+        newPos.y += Input.GetAxis("Vertical") * Time.deltaTime * 5.0f;
 
         if (!transitioning)
         {
@@ -38,7 +39,5 @@ public class CameraBehaviour : MonoBehaviour
             temp.y += cameraOffsetY;
             transform.position = temp;
         }  
-       
-
     }
 }

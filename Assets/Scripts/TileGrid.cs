@@ -1,49 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TileGrid : MonoBehaviour
 {
     public GameObject tileObject;
 
-    public float tileSize = 3;
+    public float tileSize = 16;
 
-    public int numRows = 3;
-    public int numCols = 3;
+    public int numRows = 4;
+    public int numCols = 4;
 
-    private List<GameObject> tileList = new List<GameObject>();
-    private GameObject emptyTileObject;
+    public List<GameObject> tileList = new List<GameObject>();
+    public GameObject emptyTileObject;
 
-    private bool areAnyTilesSliding = false;
-
-    void initGrid()
-    {
-        //start at the bottom left and work up to the top right
-        for (int y = 0; y < numCols; y++)
-        {
-            for (int x = 0; x < numRows; x++)
-            {
-                GameObject newTile = Instantiate(tileObject);
-
-                Vector3 newPosition = new Vector3(tileSize * x - 10.0f, tileSize * y - 10.0f, 1.0f);
-                newTile.transform.position = newPosition;
-
-                if (y == 2 && x == 1)
-                {
-                    newTile.GetComponent<TileBehaviour>().isEmptyTile = true;
-                    emptyTileObject = newTile;
-                    newTile.SetActive(false);
-                }
-
-                tileList.Add(newTile);
-            }
-        }
-    }
+    public bool areAnyTilesSliding = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        initGrid();
+        initTileGrid();
     }
 
     // Update is called once per frame
@@ -82,5 +59,49 @@ public class TileGrid : MonoBehaviour
 
         if (!foundSlidingTile)
             areAnyTilesSliding = false;
+    }
+
+    void initTileGrid()
+    {
+        int i = 0;
+        //start at the bottom left and work up to the top right
+        for (int y = 0; y < numCols; y++)
+        {
+            for (int x = 0; x < numRows; x++)
+            {
+                GameObject newTile = Instantiate(tileObject);
+                newTile.GetComponent<TileBehaviour>().tileID = i;
+                newTile.transform.parent = this.transform;
+
+                Vector3 newPosition = new Vector3(tileSize * x, tileSize * y, 1.0f);
+                newTile.transform.position = newPosition;
+
+                if (y == 2 && x == 1)
+                {
+                    newTile.GetComponent<TileBehaviour>().isEmptyTile = true;
+                    emptyTileObject = newTile;
+                    newTile.SetActive(false);
+                }
+
+                tileList.Add(newTile);
+
+                i++;
+            }
+        }
+    }
+
+    public void updateTileGrid()
+    {
+        int i = 0;
+        //start at the bottom left and work up to the top right
+        for (int y = 0; y < numCols; y++)
+        {
+            for (int x = 0; x < numRows; x++)
+            {
+                tileList[i].transform.localPosition = new Vector3(tileSize * x - tileSize, tileSize * y - tileSize, 1.0f);
+
+                i++;
+            }
+        }
     }
 }

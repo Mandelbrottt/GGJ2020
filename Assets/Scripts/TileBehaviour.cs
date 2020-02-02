@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TileBehaviour : MonoBehaviour
 {
-    public bool wasClicked = false;
-
+    public int tileID;
+    public bool wasClicked  = false;
     public bool isEmptyTile = false;
 
     public bool isSliding = false;
