@@ -54,7 +54,7 @@ public class TileLevelManager : MonoBehaviour
 
     private void initTileGrid()
     {
-        RandomStuff.Shuffle(gridList);
+        //RandomStuff.Shuffle(gridList);
 
         int i = 0;
         //start at the bottom left and work up to the top right
