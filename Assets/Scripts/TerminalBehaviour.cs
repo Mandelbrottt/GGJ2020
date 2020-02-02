@@ -37,7 +37,7 @@ public class TerminalBehaviour : MonoBehaviour
         //wait for the animation to finish
         yield return new WaitForSeconds(delay);
 
-        GameObject.Find("LevelManager").GetComponent<TileLevelManager>().isPlaying = false;
+        GameObject.Find("LevelManager").GetComponent<TileLevelManager>().switchToNotPlaying();
         transitionRunning = false;
     }
     IEnumerator sceneTransitionIn()
@@ -51,7 +51,7 @@ public class TerminalBehaviour : MonoBehaviour
         //move the camera back to the player and zoom in
         cameraBehaviour.targetOrtho = 5.0f;
 
-        GameObject.Find("LevelManager").GetComponent<TileLevelManager>().isPlaying = true;
+        GameObject.Find("LevelManager").GetComponent<TileLevelManager>().switchToPlaying();
 
         yield return new WaitForSeconds(0.0f);
 
@@ -63,7 +63,6 @@ public class TerminalBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         playerTrigger = player.GetComponent<BoxCollider2D>();
         playerAnimator = player.GetComponent<Animator>();
         playerMovement = player.GetComponent<PlayerMovement>();

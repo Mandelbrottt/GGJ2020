@@ -3,8 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public static class RandomStuff
+{
+    private static System.Random rng = new System.Random();
+
+    public static void Shuffle<T>(this IList<T> list)
+    {
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
+}
+
 public class TileLevelManager : MonoBehaviour
 {
+    public GameObject player;
     public List<ExtraGridInfo> gridList;
 
     public int gridSizeX = 10;
@@ -16,35 +35,75 @@ public class TileLevelManager : MonoBehaviour
     public bool isPlaying = true;
 
     public ExtraGridInfo emptyTileObject;
+    public ExtraGridInfo tileWithPlayerInIt;
 
     public bool areAnyTilesSliding = false;
 
     void Start()
     {
-
+        initTileGrid();
     }
 
     private void Update()
     {
         if (!isPlaying)
         {
-            bool foundSlidingTile = false;
+            checkForTileSliding();
+        }
+    }
 
-            int numTiles = gridList.Count;
-            for (int i = 0; i < numTiles; i++)
+    private void initTileGrid()
+    {
+        //RandomStuff.Shuffle(gridList);
+
+        int i = 0;
+        //start at the bottom left and work up to the top right
+        for (int y = 0; y < tilesPerCol; y++)
+        {
+            for (int x = 0; x < tilesPerRow; x++)
             {
-                ExtraGridInfo currentTile = gridList[i].GetComponent<ExtraGridInfo>();
+                gridList[i].transform.localPosition = new Vector3(gridSizeX * x, gridSizeY * y - gridSizeY * 2.0f, 1.0f);
+                i++;
+            }
+        }
+    }
 
-                if (currentTile.isSliding)
+    public void switchToPlaying()
+    {
+        isPlaying = true;
+    }
+
+    public void switchToNotPlaying()
+    {
+        isPlaying = false;
+    }
+
+    public void setTileWithPlayerInIt(ExtraGridInfo tile)
+    {
+        tileWithPlayerInIt = tile;
+    }
+
+    private void checkForTileSliding()
+    {
+        bool foundSlidingTile = false;
+
+        int numTiles = gridList.Count;
+        for (int i = 0; i < numTiles; i++)
+        {
+            ExtraGridInfo currentTile = gridList[i].GetComponent<ExtraGridInfo>();
+
+            if (currentTile.isSliding)
+            {
+                foundSlidingTile = true;
+                areAnyTilesSliding = true;
+            }
+
+            if (currentTile.wasClicked)
+            {
+                currentTile.wasClicked = false;
+
+                if (currentTile != tileWithPlayerInIt)
                 {
-                    foundSlidingTile = true;
-                    areAnyTilesSliding = true;
-                }
-
-                if (currentTile.wasClicked)
-                {
-                    currentTile.wasClicked = false;
-
                     //invalid if any tiles are already sliding or the tile isn't touching the empty tile
                     if (!areAnyTilesSliding
                         && (currentTile.transform.position - emptyTileObject.transform.position).magnitude == gridSizeX
@@ -58,65 +117,9 @@ public class TileLevelManager : MonoBehaviour
                     }
                 }
             }
-
-            if (!foundSlidingTile)
-                areAnyTilesSliding = false;
         }
-    }
 
-    void organizeTileGrid()
-    {
-        //List<ExtraGridInfo> newGridList = new List<ExtraGridInfo>();
-
-        ////start at the bottom left and work up to the top right
-        //for (int y = 0; y < tilesPerCol; y++)
-        //{
-        //    for (int x = 0; x < tilesPerRow; x++)
-        //    {
-        //        Vector2 pointToTest = new Vector2(
-        //            gridSizeX * x - gridSizeX / 2 - gridSizeX,
-        //            gridSizeY * y - gridSizeY / 2 - gridSizeY * 2);
-
-        //        foreach (ExtraGridInfo grid in gridList)
-        //        {
-        //            if (grid.GetComponent<BoxCollider2D>().OverlapPoint(pointToTest))
-        //            {
-        //                newGridList.Add(grid);
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
-
-        //gridList = newGridList;
-    }
-
-    void initTileGrid()
-    {
-        //int i = 0;
-        ////start at the bottom left and work up to the top right
-        //for (int y = 0; y < tilesPerCol; y++)
-        //{
-        //    for (int x = 0; x < tilesPerRow; x++)
-        //    {
-        //        GameObject newTile = Instantiate(tileObject);
-        //        newTile.GetComponent<TileBehaviour>().tileID = i;
-        //        newTile.transform.parent = this.transform;
-
-        //        Vector3 newPosition = new Vector3(tileSize * x - tileSize, tileSize * y - tileSize, 1.0f);
-        //        newTile.transform.position = newPosition;
-
-        //        if (y == 2 && x == 1)
-        //        {
-        //            newTile.GetComponent<TileBehaviour>().isEmptyTile = true;
-        //            emptyTileObject = newTile;
-        //            newTile.SetActive(false);
-        //        }
-
-        //        tileList.Add(newTile);
-
-        //        i++;
-        //    }
-        //}
+        if (!foundSlidingTile)
+            areAnyTilesSliding = false;
     }
 }
