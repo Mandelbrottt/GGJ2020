@@ -62,7 +62,7 @@ public class TileLevelManager : MonoBehaviour
         {
             for (int x = 0; x < tilesPerRow; x++)
             {
-                gridList[i].transform.localPosition = new Vector3(gridSizeX * x, gridSizeY * y - gridSizeY * 2.0f, 1.0f);
+                gridList[i].transform.localPosition = new Vector3(gridSizeX * x, gridSizeY * y, 1.0f);
                 i++;
             }
         }
