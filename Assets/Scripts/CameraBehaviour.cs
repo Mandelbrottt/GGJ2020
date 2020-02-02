@@ -12,8 +12,8 @@ public class CameraBehaviour : MonoBehaviour
     public float zoomSpeed = 1;
     public float targetOrtho = 5.0f;
     public float smoothSpeed = 2.0f;
-    public float minOrtho = 1.0f;
-    public float maxOrtho = 20.0f;
+    public float minOrtho = 5.0f;
+    public float maxOrtho = 40.0f;
 
     public bool transitioning = false;
 
