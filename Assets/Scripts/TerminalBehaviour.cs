@@ -29,6 +29,8 @@ public class TerminalBehaviour : MonoBehaviour
         playerMovement.enabled = false;
         transitionRunning = true;
 
+        GameObject.Find("Keyboard").GetComponent<AudioSource>().Play();
+
         CameraBehaviour cameraBehaviour = mainCamera.GetComponent<CameraBehaviour>();
 
         //set zoom target
@@ -36,7 +38,9 @@ public class TerminalBehaviour : MonoBehaviour
 
         //wait for the animation to finish
         yield return new WaitForSeconds(delay);
-       
+
+        GameObject.Find("Keyboard").GetComponent<AudioSource>().Stop();
+
         transitionRunning = false;
     }
     IEnumerator sceneTransitionIn()
@@ -73,14 +77,20 @@ public class TerminalBehaviour : MonoBehaviour
     {
         CameraBehaviour cameraBehaviour = mainCamera.GetComponent<CameraBehaviour>();
 
-        if (Input.GetButtonDown("Use") && interactable)
+        if (Input.GetButtonDown("Use"))
         {
-            cameraBehaviour.transitioning = !cameraBehaviour.transitioning;
+            if (!cameraBehaviour.transitioning && interactable)
+            {
+                cameraBehaviour.transitioning ^= true;
 
-            if (cameraBehaviour.transitioning)
                 StartCoroutine("sceneTransitionOut");
-            else
+            }
+            else if (cameraBehaviour.transitioning)
+            {
+                cameraBehaviour.transitioning ^= true;
+                
                 StartCoroutine("sceneTransitionIn");
+            }
 
         }
         if (transitionRunning)
