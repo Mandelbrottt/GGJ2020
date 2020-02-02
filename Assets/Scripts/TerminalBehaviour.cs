@@ -35,6 +35,7 @@ public class TerminalBehaviour : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         //load the next scene
+        //SceneManager.MoveGameObjectToScene(,SceneManager.GetSceneByName("TileSliderScene"));
         //SceneManager.LoadScene("TileSliderScene");
         transitionRunning = false;
     }
