@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController2D controller;
+    public Animator animator;
 
     private Rigidbody2D rb;
     private BoxCollider2D box;
@@ -38,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
         box = GetComponent<BoxCollider2D>();
         circle = GetComponent<CircleCollider2D>();
     }
-    
+
     // Update is called once per frame
     void Update()
     {
@@ -51,8 +52,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveLocked >= 0)
         {
-            horizontalMove = isRightWall 
-                                 ? Mathf.Min(0f, horizontalMove) 
+            horizontalMove = isRightWall
+                                 ? Mathf.Min(0f, horizontalMove)
                                  : Mathf.Max(0f, horizontalMove);
         }
 
@@ -73,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         bool triedJumping = false;
-        
+
         if (rb.velocity.y >= 0)
         {
             box.sharedMaterial.friction = 0;
@@ -93,6 +94,23 @@ public class PlayerMovement : MonoBehaviour
 
         if (isWallSliding)
             rb.gravityScale = tempGrav;
+
+        
+        //Animator Update
+        animator.SetFloat("Speed", Math.Abs(horizontalMove));
+        animator.SetBool("Jumping", jump);
+        animator.SetBool("WallClinging", isWallSliding);
+
+        if (horizontalMove < 0.0)
+            animator.SetBool("facingLeft", true);
+        else
+            animator.SetBool("facingLeft", false);
+
+        if (rb.velocity.y < 0.0)
+            animator.SetBool("Falling", true);
+        else
+            animator.SetBool("Falling", false);
+
     }
 
     void FixedUpdate()
