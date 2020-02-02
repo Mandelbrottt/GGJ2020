@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TileLevelManager : MonoBehaviour
 {
+    public GameObject player;
     public List<ExtraGridInfo> gridList;
 
     public int gridSizeX = 10;
@@ -16,6 +17,7 @@ public class TileLevelManager : MonoBehaviour
     public bool isPlaying = true;
 
     public ExtraGridInfo emptyTileObject;
+    public ExtraGridInfo tileWithPlayerInIt;
 
     public bool areAnyTilesSliding = false;
 
@@ -45,16 +47,19 @@ public class TileLevelManager : MonoBehaviour
                 {
                     currentTile.wasClicked = false;
 
-                    //invalid if any tiles are already sliding or the tile isn't touching the empty tile
-                    if (!areAnyTilesSliding
-                        && (currentTile.transform.position - emptyTileObject.transform.position).magnitude == gridSizeX
-                        && !currentTile.isEmptyTile)
+                    if (currentTile != tileWithPlayerInIt)
                     {
-                        currentTile.startPos = currentTile.transform.position;
-                        currentTile.targetPos = emptyTileObject.transform.position;
-                        currentTile.isSliding = true;
+                        //invalid if any tiles are already sliding or the tile isn't touching the empty tile
+                        if (!areAnyTilesSliding
+                            && (currentTile.transform.position - emptyTileObject.transform.position).magnitude == gridSizeX
+                            && !currentTile.isEmptyTile)
+                        {
+                            currentTile.startPos = currentTile.transform.position;
+                            currentTile.targetPos = emptyTileObject.transform.position;
+                            currentTile.isSliding = true;
 
-                        emptyTileObject.transform.position = currentTile.transform.position;
+                            emptyTileObject.transform.position = currentTile.transform.position;
+                        }
                     }
                 }
             }
@@ -64,59 +69,18 @@ public class TileLevelManager : MonoBehaviour
         }
     }
 
-    void organizeTileGrid()
+    public void switchToPlaying()
     {
-        //List<ExtraGridInfo> newGridList = new List<ExtraGridInfo>();
-
-        ////start at the bottom left and work up to the top right
-        //for (int y = 0; y < tilesPerCol; y++)
-        //{
-        //    for (int x = 0; x < tilesPerRow; x++)
-        //    {
-        //        Vector2 pointToTest = new Vector2(
-        //            gridSizeX * x - gridSizeX / 2 - gridSizeX,
-        //            gridSizeY * y - gridSizeY / 2 - gridSizeY * 2);
-
-        //        foreach (ExtraGridInfo grid in gridList)
-        //        {
-        //            if (grid.GetComponent<BoxCollider2D>().OverlapPoint(pointToTest))
-        //            {
-        //                newGridList.Add(grid);
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
-
-        //gridList = newGridList;
+        isPlaying = true;
     }
 
-    void initTileGrid()
+    public void switchToNotPlaying()
     {
-        //int i = 0;
-        ////start at the bottom left and work up to the top right
-        //for (int y = 0; y < tilesPerCol; y++)
-        //{
-        //    for (int x = 0; x < tilesPerRow; x++)
-        //    {
-        //        GameObject newTile = Instantiate(tileObject);
-        //        newTile.GetComponent<TileBehaviour>().tileID = i;
-        //        newTile.transform.parent = this.transform;
+        isPlaying = false;
+    }
 
-        //        Vector3 newPosition = new Vector3(tileSize * x - tileSize, tileSize * y - tileSize, 1.0f);
-        //        newTile.transform.position = newPosition;
-
-        //        if (y == 2 && x == 1)
-        //        {
-        //            newTile.GetComponent<TileBehaviour>().isEmptyTile = true;
-        //            emptyTileObject = newTile;
-        //            newTile.SetActive(false);
-        //        }
-
-        //        tileList.Add(newTile);
-
-        //        i++;
-        //    }
-        //}
+    public void setTileWithPlayerInIt(ExtraGridInfo tile)
+    {
+        tileWithPlayerInIt = tile;
     }
 }

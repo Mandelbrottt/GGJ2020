@@ -739,7 +739,7 @@ Transform:
   - {fileID: 498027719}
   - {fileID: 2131766229}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &79113997
 MonoBehaviour:
@@ -1553,7 +1553,7 @@ Transform:
   - {fileID: 1175567194}
   - {fileID: 1724063546}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &348891508
 MonoBehaviour:
@@ -3730,7 +3730,7 @@ Transform:
   - {fileID: 1266599809}
   - {fileID: 636900675}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &537735860
 MonoBehaviour:
@@ -5046,7 +5046,7 @@ Transform:
   - {fileID: 557471986}
   - {fileID: 1678219462}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &716229212
 MonoBehaviour:
@@ -5881,7 +5881,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1069653687
 MonoBehaviour:
@@ -6989,7 +6989,7 @@ Transform:
   - {fileID: 1003581208}
   - {fileID: 1304917991}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1326309127
 MonoBehaviour:
@@ -7187,7 +7187,7 @@ Transform:
   - {fileID: 1903018300}
   - {fileID: 1558992069}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1436559201
 MonoBehaviour:
@@ -7281,6 +7281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ce7ffc1aa04cb24b805ddb472e261ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1436559195}
   gridList:
   - {fileID: 1960315594}
   - {fileID: 1878568847}
@@ -7297,6 +7298,7 @@ MonoBehaviour:
   tilesPerCol: 3
   isPlaying: 1
   emptyTileObject: {fileID: 2129551519}
+  tileWithPlayerInIt: {fileID: 0}
   areAnyTilesSliding: 0
 --- !u!4 &1511820621
 Transform:
@@ -7310,7 +7312,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1557334788
 GameObject:
@@ -9019,7 +9021,7 @@ Transform:
   - {fileID: 799172691}
   - {fileID: 787611326}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1878568847
 MonoBehaviour:
@@ -9941,7 +9943,7 @@ Transform:
   - {fileID: 2070031718}
   - {fileID: 677133186}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1960315594
 MonoBehaviour:
@@ -11407,7 +11409,7 @@ Transform:
   m_Children:
   - {fileID: 410784221}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2129551523
 BoxCollider2D:
@@ -11621,7 +11623,7 @@ Transform:
   - {fileID: 384950813}
   - {fileID: 1885987472}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2137707517
 MonoBehaviour:

@@ -40,4 +40,10 @@ public class ExtraGridInfo : MonoBehaviour
     {
         wasClicked = true;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<PlayerMovement>())
+            GameObject.Find("LevelManager").GetComponent<TileLevelManager>().setTileWithPlayerInIt(this);
+    }
 }
