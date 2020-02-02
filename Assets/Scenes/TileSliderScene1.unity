@@ -8795,7 +8795,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.21698111, g: 0.18781148, b: 0.1003026, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -19756,6 +19756,7 @@ MonoBehaviour:
   animator: {fileID: 1436559203}
   runSpeed: 40
   gravityScale: 3
+  fallingGravityScale: 2
   wallSlideSpeed: 1
   framesMoveLocked: 15
   onGround: 0
@@ -19846,6 +19847,7 @@ MonoBehaviour:
   m_GroundCheck: {fileID: 1558992069}
   m_CeilingCheck: {fileID: 1903018300}
   m_CrouchDisableCollider: {fileID: 0}
+  m_Grounded: 0
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
