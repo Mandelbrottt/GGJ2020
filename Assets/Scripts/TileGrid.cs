@@ -7,7 +7,7 @@ public class TileGrid : MonoBehaviour
 {
     public GameObject tileObject;
 
-    public float tileSize = 3;
+    public float tileSize = 10;
 
     public int numRows = 3;
     public int numCols = 3;
