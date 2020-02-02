@@ -36,7 +36,8 @@ public class TerminalBehaviour : MonoBehaviour
 
         //wait for the animation to finish
         yield return new WaitForSeconds(delay);
-       
+
+        GameObject.Find("LevelManager").GetComponent<TileLevelManager>().isPlaying = false;
         transitionRunning = false;
     }
     IEnumerator sceneTransitionIn()
@@ -50,11 +51,11 @@ public class TerminalBehaviour : MonoBehaviour
         //move the camera back to the player and zoom in
         cameraBehaviour.targetOrtho = 5.0f;
 
+        GameObject.Find("LevelManager").GetComponent<TileLevelManager>().isPlaying = true;
 
         yield return new WaitForSeconds(0.0f);
 
         playerMovement.enabled = true;
-
         transitionRunning = false;
 
     }

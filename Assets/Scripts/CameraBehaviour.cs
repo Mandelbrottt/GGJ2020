@@ -24,13 +24,9 @@ public class CameraBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (isFrozenOnOrigin)
-            transform.position = new Vector3(0.0f, 0.0f, -50.0f);
-        else
-        {
-            Vector3 newPos = transform.position;
-            newPos.x += Input.GetAxis("Horizontal") * Time.deltaTime * 5.0f;
-            newPos.y += Input.GetAxis("Vertical") * Time.deltaTime * 5.0f;
+        Vector3 newPos = transform.position;
+        newPos.x += Input.GetAxis("Horizontal") * Time.deltaTime * 5.0f;
+        newPos.y += Input.GetAxis("Vertical") * Time.deltaTime * 5.0f;
 
         if (!transitioning)
         {
@@ -43,7 +39,5 @@ public class CameraBehaviour : MonoBehaviour
             temp.y += cameraOffsetY;
             transform.position = temp;
         }  
-       
-
     }
 }
