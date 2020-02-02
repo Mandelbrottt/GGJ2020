@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileBehaviour : MonoBehaviour
+public class ExtraGridInfo : MonoBehaviour
 {
-    public int tileID;
-    public bool wasClicked  = false;
+    public int gridID;
+    public bool wasClicked = false;
     public bool isEmptyTile = false;
 
     public bool isSliding = false;
@@ -17,7 +17,7 @@ public class TileBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -39,5 +39,11 @@ public class TileBehaviour : MonoBehaviour
     public void OnMouseDown()
     {
         wasClicked = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<PlayerMovement>())
+            GameObject.Find("LevelManager").GetComponent<TileLevelManager>().setTileWithPlayerInIt(this);
     }
 }
