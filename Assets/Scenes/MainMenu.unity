@@ -154,7 +154,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 1.9130001, y: 0, z: 0}
   m_AnchorMin: {x: 0.37600002, y: 0.71717286}
   m_AnchorMax: {x: 0.4874599, y: 0.8148361}
-  m_AnchoredPosition: {x: 2.5, y: -0.0000042915}
+  m_AnchoredPosition: {x: 2.5, y: 0}
   m_SizeDelta: {x: -32.035, y: -3.18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &75135325
@@ -830,7 +830,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.365, y: 0.16325927}
   m_AnchorMax: {x: 0.63038504, y: 0.256}
-  m_AnchoredPosition: {x: 1.4999886, y: 0.69999695}
+  m_AnchoredPosition: {x: 1.4999847, y: 0.7000122}
   m_SizeDelta: {x: 1.4799957, y: 0.83000183}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &845096010
@@ -1414,7 +1414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startButton: {fileID: 1097055968}
-  gameScene: SampleScene
+  gameScene: TileSliderScene1
 --- !u!1 &1128239519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1745,6 +1745,7 @@ GameObject:
   - component: {fileID: 1445652572}
   - component: {fileID: 1445652571}
   - component: {fileID: 1445652570}
+  - component: {fileID: 1445652573}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -1851,6 +1852,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1445652568}
   m_CullTransparentMesh: 0
+--- !u!114 &1445652573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445652568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d14cee95ff54067498bdd77b083d2b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  QuitButton: {fileID: 1445652570}
 --- !u!1 &1591746974
 GameObject:
   m_ObjectHideFlags: 0
@@ -2039,7 +2053,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.41200003, y: 0.2598642}
   m_AnchorMax: {x: 0.58922994, y: 0.3654426}
-  m_AnchoredPosition: {x: 5.76, y: 0.0000038147}
+  m_AnchoredPosition: {x: 5.760002, y: 0}
   m_SizeDelta: {x: -62.53, y: 5.52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2067245002
