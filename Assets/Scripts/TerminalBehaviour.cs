@@ -17,7 +17,10 @@ public class TerminalBehaviour : MonoBehaviour
 
     Vector3 cameraTarget = new Vector3(5.0f, -10.0f, -10.0f);
 
+    public List<Transform> tileTransforms;
+
     public bool transitionRunning = false;
+
 
     IEnumerator sceneTransitionOut()
     {
@@ -33,10 +36,7 @@ public class TerminalBehaviour : MonoBehaviour
 
         //wait for the animation to finish
         yield return new WaitForSeconds(delay);
-
-        //load the next scene
-        //SceneManager.MoveGameObjectToScene(,SceneManager.GetSceneByName("TileSliderScene"));
-        //SceneManager.LoadScene("TileSliderScene");
+       
         transitionRunning = false;
     }
     IEnumerator sceneTransitionIn()
@@ -62,9 +62,11 @@ public class TerminalBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         playerTrigger = player.GetComponent<BoxCollider2D>();
         playerAnimator = player.GetComponent<Animator>();
         playerMovement = player.GetComponent<PlayerMovement>();
+        StartCoroutine("sceneTransitionIn");
     }
     // Update is called once per frame  
     void Update()

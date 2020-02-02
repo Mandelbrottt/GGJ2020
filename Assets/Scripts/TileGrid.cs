@@ -6,7 +6,7 @@ public class TileGrid : MonoBehaviour
 {
     public GameObject tileObject;
 
-    public float tileSize = 3;
+    public float tileSize = 10;
 
     public int numRows = 3;
     public int numCols = 3;
@@ -28,7 +28,7 @@ public class TileGrid : MonoBehaviour
                 Vector3 newPosition = new Vector3(tileSize * x - 10.0f, tileSize * y - 10.0f, 1.0f);
                 newTile.transform.position = newPosition;
 
-                if (y == 2 && x == 1)
+                if (y == 2 && x == 0)
                 {
                     newTile.GetComponent<TileBehaviour>().isEmptyTile = true;
                     emptyTileObject = newTile;
