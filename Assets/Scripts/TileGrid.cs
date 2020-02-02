@@ -7,10 +7,10 @@ public class TileGrid : MonoBehaviour
 {
     public GameObject tileObject;
 
-    public float tileSize = 10;
+    public float tileSize = 16;
 
-    public int numRows = 3;
-    public int numCols = 3;
+    public int numRows = 4;
+    public int numCols = 4;
 
     public List<GameObject> tileList = new List<GameObject>();
     public GameObject emptyTileObject;
@@ -73,7 +73,7 @@ public class TileGrid : MonoBehaviour
                 newTile.GetComponent<TileBehaviour>().tileID = i;
                 newTile.transform.parent = this.transform;
 
-                Vector3 newPosition = new Vector3(tileSize * x - tileSize, tileSize * y - tileSize, 1.0f);
+                Vector3 newPosition = new Vector3(tileSize * x, tileSize * y, 1.0f);
                 newTile.transform.position = newPosition;
 
                 if (y == 2 && x == 1)

@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     
     public float runSpeed = 40f;
     public float gravityScale = 3.0f;
+    public float fallingGravityScale = 2.0f;
     public float wallSlideSpeed = 10f;
 
     public int framesMoveLocked = 15;
@@ -27,11 +28,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private bool onGround = false;
 
-    private bool isWallSliding = true;
+    private bool isWallSliding = false;
     private bool isRightWall = false;
 
     private int jumpOffWall = 0;
     private int moveLocked = 0;
+
+    bool doWallJump = false;
+
+    private int jumpFrames = 0;
 
     void Start()
     {
@@ -45,51 +50,53 @@ public class PlayerMovement : MonoBehaviour
     {
         float tempGrav = rb.gravityScale;
 
-        if (!isWallSliding || jumpOffWall >= 0)
+        //if (!isWallSliding || jumpOffWall >= 0)
         {
             horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         }
 
         if (moveLocked >= 0)
         {
-            horizontalMove = isRightWall
-                                 ? Mathf.Min(0f, horizontalMove)
-                                 : Mathf.Max(0f, horizontalMove);
+            float sign = isRightWall ? -1 : 1;
+            horizontalMove = Mathf.Abs(horizontalMove) * sign;   
         }
 
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
             keepJumping = true;
+
+            if (onGround)
+                jumpFrames = 3;
+
             onGround = false;
 
-            if (isWallSliding)
+            if (isWallSliding && jumpFrames < 0)
             {
                 float sign = isRightWall ? -1 : 1;
-                horizontalMove = horizontalMove * sign * Mathf.Sign(horizontalMove) / 2f;
-                rb.velocity = new Vector2(horizontalMove, rb.velocity.y + 15f);
+                horizontalMove = Mathf.Abs(horizontalMove) * sign;
+                //rb.velocity = new Vector2(horizontalMove, rb.velocity.y);
                 jumpOffWall = 10;
                 moveLocked = framesMoveLocked;
+                //controller.m_Grounded = true;
+                doWallJump = true;
+
+                rb.velocity = new Vector2(rb.velocity.x, 0);
             }
         }
 
         bool triedJumping = false;
 
-        if (rb.velocity.y >= 0)
+        if (keepJumping && Input.GetButton("Jump"))
         {
-            box.sharedMaterial.friction = 0;
-
-            if (keepJumping && Input.GetButton("Jump"))
-            {
-                rb.gravityScale = gravityScale;
-                triedJumping = true;
-            }
+            rb.gravityScale = gravityScale;
+            triedJumping = true;
         }
 
         if (!triedJumping)
         {
             keepJumping = false;
-            rb.gravityScale = gravityScale * 2;
+            rb.gravityScale = gravityScale * fallingGravityScale;
         }
 
         if (isWallSliding)
@@ -106,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
         else
             animator.SetBool("facingLeft", false);
 
-        if (rb.velocity.y < 0.0)
+        if (rb.velocity.y < -1.0)
             animator.SetBool("Falling", true);
         else
             animator.SetBool("Falling", false);
@@ -115,9 +122,11 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (doWallJump)
+            controller.m_Grounded = true;
+        doWallJump = false;
+
         controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
-        jump = false;
-        isWallSliding = false;
 
         if (!onGround && !isWallSliding)
         {
@@ -125,11 +134,16 @@ public class PlayerMovement : MonoBehaviour
         }
 
         moveLocked--;
+
+        jump = false;
+        isWallSliding = false;
+
+        jumpFrames--;
     }
 
     public void OnLand()
     {
-        if (!keepJumping)
+        if (jumpFrames < 0)
         {
             box.sharedMaterial.friction = 0;
             onGround = true;
@@ -141,20 +155,37 @@ public class PlayerMovement : MonoBehaviour
     // wall terrain
     void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") &&
-            rb.velocity.y < -wallSlideSpeed &&
+        Vector2 avgContact = new Vector2(0, 0);
+        for (int i = 0; i < collision.contactCount; i++)
+        {
+            avgContact += collision.GetContact(i).point;
+        }
+        avgContact /= collision.contactCount;
+
+        if (jumpFrames < 0 &&
+            collision.gameObject.layer == LayerMask.NameToLayer("Wall") &&
             Math.Abs(Input.GetAxis("Horizontal")) > 0.3f)
         {
-            float dPos = collision.transform.position.x - transform.position.x;
+            float dPos = avgContact.x - transform.position.x;
             isRightWall = dPos > 0;
 
-            if (Math.Abs(Mathf.Sign(dPos) - Mathf.Sign(horizontalMove)) < 0.1f)
+            if (Math.Abs(Mathf.Sign(dPos) - Input.GetAxis("Horizontal")) < 0.1f)
             {
                 jumpOffWall = framesMoveLocked;
-                rb.gravityScale = 0;
                 isWallSliding = true;
-                rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+
+                if (rb.velocity.y < -wallSlideSpeed)
+                {
+                    rb.gravityScale = 0;
+                    rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+                }
             }
         }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+            isWallSliding = false;
     }
 }
