@@ -6,7 +6,6 @@ public class TerminalBehaviour : MonoBehaviour
 {
 
     public GameObject player;
-    public GameObject map;
     public Animator animator;
     public Camera mainCamera;
     private BoxCollider2D playerTrigger;
@@ -16,7 +15,7 @@ public class TerminalBehaviour : MonoBehaviour
     private bool interactable = false;
     float delay = 2.0f;   //seconds
 
-    Vector3 cameraTarget = new Vector3(0.0f, 0.0f, -10.0f);
+    Vector3 cameraTarget = new Vector3(5.0f, -10.0f, -10.0f);
 
     public List<Transform> tileTransforms;
 
@@ -63,11 +62,6 @@ public class TerminalBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < map.transform.childCount; i++)
-        {
-            Transform temp = map.transform.GetChild(i);
-            tileTransforms.Add(temp);
-        }
 
         playerTrigger = player.GetComponent<BoxCollider2D>();
         playerAnimator = player.GetComponent<Animator>();
