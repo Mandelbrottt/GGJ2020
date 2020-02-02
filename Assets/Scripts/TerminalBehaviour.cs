@@ -29,6 +29,10 @@ public class TerminalBehaviour : MonoBehaviour
         playerMovement.enabled = false;
         transitionRunning = true;
 
+        GameObject.Find("Keyboard").GetComponent<AudioSource>().Play();
+
+        GameObject.Find("LevelManager").GetComponent<TileLevelManager>().switchToNotPlaying();
+
         CameraBehaviour cameraBehaviour = mainCamera.GetComponent<CameraBehaviour>();
 
         //set zoom target
@@ -37,7 +41,8 @@ public class TerminalBehaviour : MonoBehaviour
         //wait for the animation to finish
         yield return new WaitForSeconds(delay);
 
-        GameObject.Find("LevelManager").GetComponent<TileLevelManager>().switchToNotPlaying();
+        GameObject.Find("Keyboard").GetComponent<AudioSource>().Stop();
+
         transitionRunning = false;
     }
     IEnumerator sceneTransitionIn()
@@ -66,23 +71,35 @@ public class TerminalBehaviour : MonoBehaviour
         playerTrigger = player.GetComponent<BoxCollider2D>();
         playerAnimator = player.GetComponent<Animator>();
         playerMovement = player.GetComponent<PlayerMovement>();
-        StartCoroutine("sceneTransitionIn");
+        //StartCoroutine("sceneTransitionIn");
     }
+
+    bool wasUsed = false;
+
     // Update is called once per frame  
     void Update()
     {
         CameraBehaviour cameraBehaviour = mainCamera.GetComponent<CameraBehaviour>();
 
-        if (Input.GetButtonDown("Use") && interactable)
+        if (!wasUsed && Input.GetButtonDown("Use"))
         {
-            cameraBehaviour.transitioning = !cameraBehaviour.transitioning;
+            wasUsed = true;
+            if (!cameraBehaviour.transitioning && interactable)
+            {
+                cameraBehaviour.transitioning ^= true;
 
-            if (cameraBehaviour.transitioning)
                 StartCoroutine("sceneTransitionOut");
-            else
-                StartCoroutine("sceneTransitionIn");
+            }
+            else if (cameraBehaviour.transitioning)
+            {
+                cameraBehaviour.transitioning ^= true;
 
+                StartCoroutine("sceneTransitionIn");
+            }
         }
+        else if (!Input.GetButtonDown("Use"))
+            wasUsed = false;
+
         if (transitionRunning)
             cameraBehaviour.transform.position = Vector3.Lerp(cameraBehaviour.transform.position, cameraTarget, Time.deltaTime * 3.7f);
 
