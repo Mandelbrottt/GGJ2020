@@ -105,8 +105,8 @@ public class TileLevelManager : MonoBehaviour
                 if (currentTile != tileWithPlayerInIt)
                 {
                     //invalid if any tiles are already sliding or the tile isn't touching the empty tile
-                    if (!areAnyTilesSliding
-                        && (currentTile.transform.position - emptyTileObject.transform.position).magnitude == gridSizeX
+                    if (//!areAnyTilesSliding
+                        (currentTile.transform.position - emptyTileObject.transform.position).magnitude == gridSizeX
                         && !currentTile.isEmptyTile)
                     {
                         currentTile.startPos = currentTile.transform.position;

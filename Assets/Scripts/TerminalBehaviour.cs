@@ -28,6 +28,7 @@ public class TerminalBehaviour : MonoBehaviour
         playerAnimator.SetBool("activeTerminal", true);
         playerMovement.enabled = false;
         transitionRunning = true;
+        player.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
 
         CameraBehaviour cameraBehaviour = mainCamera.GetComponent<CameraBehaviour>();
 
@@ -49,7 +50,7 @@ public class TerminalBehaviour : MonoBehaviour
         playerAnimator.SetBool("activeTerminal", false);
 
         //move the camera back to the player and zoom in
-        cameraBehaviour.targetOrtho = 5.0f;
+        cameraBehaviour.targetOrtho = 5.5f;
 
         GameObject.Find("LevelManager").GetComponent<TileLevelManager>().switchToPlaying();
 
