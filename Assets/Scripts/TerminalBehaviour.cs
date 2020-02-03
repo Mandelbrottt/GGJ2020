@@ -15,7 +15,7 @@ public class TerminalBehaviour : MonoBehaviour
     private bool interactable = false;
     float delay = 2.0f;   //seconds
 
-    Vector3 cameraTarget = new Vector3(5.0f, -10.0f, -10.0f);
+    Vector3 cameraTarget = new Vector3(30.0f, 30.0f, -10.0f);
 
     public List<Transform> tileTransforms;
 
@@ -28,11 +28,12 @@ public class TerminalBehaviour : MonoBehaviour
         playerAnimator.SetBool("activeTerminal", true);
         playerMovement.enabled = false;
         transitionRunning = true;
+        player.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
 
         CameraBehaviour cameraBehaviour = mainCamera.GetComponent<CameraBehaviour>();
 
         //set zoom target
-        cameraBehaviour.targetOrtho = 20.0f;
+        cameraBehaviour.targetOrtho = 40.0f;
 
         //wait for the animation to finish
         yield return new WaitForSeconds(delay);
@@ -49,7 +50,7 @@ public class TerminalBehaviour : MonoBehaviour
         playerAnimator.SetBool("activeTerminal", false);
 
         //move the camera back to the player and zoom in
-        cameraBehaviour.targetOrtho = 5.0f;
+        cameraBehaviour.targetOrtho = 5.5f;
 
         GameObject.Find("LevelManager").GetComponent<TileLevelManager>().switchToPlaying();
 

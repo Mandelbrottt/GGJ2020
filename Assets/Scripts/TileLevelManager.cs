@@ -26,11 +26,11 @@ public class TileLevelManager : MonoBehaviour
     public GameObject player;
     public List<ExtraGridInfo> gridList;
 
-    public int gridSizeX = 10;
-    public int gridSizeY = 10;
+    public int gridSizeX = 15;
+    public int gridSizeY = 15;
 
-    public int tilesPerRow = 3;
-    public int tilesPerCol = 3;
+    public int tilesPerRow = 4;
+    public int tilesPerCol = 4;
 
     public bool isPlaying = true;
 
@@ -54,7 +54,7 @@ public class TileLevelManager : MonoBehaviour
 
     private void initTileGrid()
     {
-        //RandomStuff.Shuffle(gridList);
+        RandomStuff.Shuffle(gridList);
 
         int i = 0;
         //start at the bottom left and work up to the top right
@@ -62,7 +62,7 @@ public class TileLevelManager : MonoBehaviour
         {
             for (int x = 0; x < tilesPerRow; x++)
             {
-                gridList[i].transform.localPosition = new Vector3(gridSizeX * x, gridSizeY * y - gridSizeY * 2.0f, 1.0f);
+                gridList[i].transform.localPosition = new Vector3(gridSizeX * x, gridSizeY * y, 1.0f);
                 i++;
             }
         }
@@ -105,8 +105,8 @@ public class TileLevelManager : MonoBehaviour
                 if (currentTile != tileWithPlayerInIt)
                 {
                     //invalid if any tiles are already sliding or the tile isn't touching the empty tile
-                    if (!areAnyTilesSliding
-                        && (currentTile.transform.position - emptyTileObject.transform.position).magnitude == gridSizeX
+                    if (//!areAnyTilesSliding
+                        (currentTile.transform.position - emptyTileObject.transform.position).magnitude == gridSizeX
                         && !currentTile.isEmptyTile)
                     {
                         currentTile.startPos = currentTile.transform.position;
